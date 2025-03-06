@@ -1,0 +1,114 @@
+<div class="home-container">
+  <h1>Dashboard</h1>
+  
+  <div *ngIf="loading" class="loading-spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+  
+  <div *ngIf="!loading" class="dashboard-grid">
+    <!-- Recent Transactions -->
+    <mat-card class="dashboard-card recent-transactions">
+      <mat-card-header>
+        <mat-card-title>Recent Transactions</mat-card-title>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <table mat-table [dataSource]="transfers" class="mat-elevation-z0">
+          <!-- Date Column -->
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef>Date</th>
+            <td mat-cell *matCellDef="let transfer">
+              {{ transfer.day | date:'shortDate' }}
+            </td>
+          </ng-container>
+          
+          <!-- Description Column -->
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Description</th>
+            <td mat-cell *matCellDef="let transfer">{{ transfer.description }}</td>
+          </ng-container>
+          
+          <!-- Amount Column -->
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef>Amount</th>
+            <td mat-cell *matCellDef="let transfer">
+              <ng-container *ngFor="let item of transfer.transferItems.slice(0, 1)">
+                {{ item.value }} {{ defaultCurrency?.symbol }}
+              </ng-container>
+            </td>
+          </ng-container>
+          
+          <tr mat-header-row *matHeaderRowDef="['date', 'description', 'amount']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['date', 'description', 'amount']"
+              [routerLink]="['/transfers', row.id]"></tr>
+        </table>
+        
+        <div *ngIf="transfers.length === 0" class="no-data">
+          No recent transactions
+        </div>
+      </mat-card-content>
+      
+      <mat-card-actions>
+        <a mat-button color="primary" routerLink="/transfers">View All Transactions</a>
+        <a mat-button color="accent" routerLink="/transfers/new">New Transaction</a>
+      </mat-card-actions>
+    </mat-card>
+    
+    <!-- Top Categories -->
+    <mat-card class="dashboard-card top-categories">
+      <mat-card-header>
+        <mat-card-title>Categories</mat-card-title>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <div class="category-list">
+          <mat-nav-list>
+            <a mat-list-item *ngFor="let category of categories.slice(0, 5)" [routerLink]="['/categories', category.id]">
+              <span>{{ category.name }}</span>
+            </a>
+            
+            <div *ngIf="categories.length === 0" class="no-data">
+              No categories found
+            </div>
+          </mat-nav-list>
+        </div>
+      </mat-card-content>
+      
+      <mat-card-actions>
+        <a mat-button color="primary" routerLink="/categories">View All Categories</a>
+        <a mat-button color="accent" routerLink="/categories/new">New Category</a>
+      </mat-card-actions>
+    </mat-card>
+    
+    <!-- Quick Actions -->
+    <mat-card class="dashboard-card quick-actions">
+      <mat-card-header>
+        <mat-card-title>Quick Actions</mat-card-title>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <div class="quick-action-buttons">
+          <button mat-raised-button color="primary" routerLink="/transfers/new">
+            <mat-icon>swap_horiz</mat-icon>
+            New Transfer
+          </button>
+          
+          <button mat-raised-button color="accent" routerLink="/categories/new">
+            <mat-icon>category</mat-icon>
+            New Category
+          </button>
+          
+          <button mat-raised-button color="warn" routerLink="/reports">
+            <mat-icon>bar_chart</mat-icon>
+            View Reports
+          </button>
+          
+          <button mat-raised-button routerLink="/exchanges">
+            <mat-icon>currency_exchange</mat-icon>
+            Exchange Rates
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
