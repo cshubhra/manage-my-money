@@ -20,6 +20,7 @@ export class CategoryListComponent implements OnInit {
     this.categoryService.getCategories().subscribe(
       (categories: Category[]) => {
         this.categories = categories;
+        this.updateCategoryNames();
       },
       (error) => {
         console.error('Error loading categories:', error);
@@ -38,5 +39,15 @@ export class CategoryListComponent implements OnInit {
         }
       );
     }
+  }
+
+  updateCategoryNames(): void {
+    this.categories.forEach(category => {
+      category.name = this.categoryService.getCategoryName(category.id);
+    });
+  }
+
+  getCategoryName(id: number): string {
+    return this.categoryService.getCategoryName(id);
   }
 }
