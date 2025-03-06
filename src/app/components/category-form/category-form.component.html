@@ -1,0 +1,34 @@
+<h2>{{ isEditMode ? 'Edit' : 'Create' }} Category</h2>
+
+<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="name">Name:</label>
+    <input type="text" id="name" formControlName="name" required>
+    <div *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched">
+      Name is required.
+    </div>
+  </div>
+
+  <div>
+    <label for="description">Description:</label>
+    <textarea id="description" formControlName="description"></textarea>
+  </div>
+
+  <div>
+    <label for="parentId">Parent Category:</label>
+    <select id="parentId" formControlName="parentId">
+      <option [ngValue]="null">None</option>
+      <option *ngFor="let category of categories" [ngValue]="category.id">{{ category.name }}</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="isActive">
+      <input type="checkbox" id="isActive" formControlName="isActive">
+      Active
+    </label>
+  </div>
+
+  <button type="submit" [disabled]="categoryForm.invalid">{{ isEditMode ? 'Update' : 'Create' }}</button>
+  <button type="button" (click)="cancel()">Cancel</button>
+</form>
