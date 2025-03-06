@@ -1,0 +1,14 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false && (isLoggedIn$ | async)">
+    <app-sidenav *ngIf="isLoggedIn$ | async"></app-sidenav>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-navbar [drawer]="drawer"></app-navbar>
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
