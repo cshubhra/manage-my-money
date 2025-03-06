@@ -1,0 +1,9 @@
+sequenceDiagram
+    participant Browser
+    participant Server
+    participant Database
+
+    Browser->>Server: POST /login
+    Server->>Database: SELECT user by credentials
+    Database-->>Server: User found
+    Server-->>Browser: Response: auth token
