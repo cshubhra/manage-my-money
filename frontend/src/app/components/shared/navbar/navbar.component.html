@@ -1,0 +1,25 @@
+<mat-toolbar color="primary">
+  <button 
+    mat-icon-button 
+    *ngIf="isLoggedIn$ | async"
+    (click)="toggleSidenav()"
+    aria-label="Toggle sidenav">
+    <mat-icon>menu</mat-icon>
+  </button>
+  
+  <span class="app-title">Finance Manager</span>
+  
+  <span class="spacer"></span>
+  
+  <ng-container *ngIf="isLoggedIn$ | async; else loginRegister">
+    <span class="username">{{ (currentUser$ | async)?.username }}</span>
+    <button mat-button (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon> Logout
+    </button>
+  </ng-container>
+  
+  <ng-template #loginRegister>
+    <button mat-button routerLink="/login">Login</button>
+    <button mat-button routerLink="/register">Register</button>
+  </ng-template>
+</mat-toolbar>
