@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Category } from '../models/category.model';
 
 @Injectable({
@@ -29,5 +29,11 @@ export class CategoryService {
 
   deleteCategory(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  getCategoryNameById(id: number): Observable<string> {
+    return this.getCategory(id).pipe(
+      map(category => category.name)
+    );
   }
 }
