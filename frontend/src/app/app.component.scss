@@ -1,0 +1,18 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 240px;
+}
+
+.main-content {
+  padding: 20px;
+  margin-top: 64px; /* Adjust based on navbar height */
+}
+
+@media (max-width: 599px) {
+  .main-content {
+    margin-top: 56px; /* Adjust for smaller screens */
+  }
+}
