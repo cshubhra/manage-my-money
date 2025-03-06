@@ -1,0 +1,20 @@
+<div class="app-container" [class.is-mobile]="mobileQuery.matches">
+  <app-navbar *ngIf="authService.isAuthenticated()" [mobileQuery]="mobileQuery"></app-navbar>
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav 
+      *ngIf="authService.isAuthenticated()" 
+      #snav 
+      [mode]="mobileQuery.matches ? 'over' : 'side'" 
+      [fixedInViewport]="mobileQuery.matches" 
+      [opened]="!mobileQuery.matches">
+      <app-sidenav></app-sidenav>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <div class="content-container">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
