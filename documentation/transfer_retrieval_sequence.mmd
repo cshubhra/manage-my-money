@@ -1,0 +1,9 @@
+sequenceDiagram
+    participant Browser
+    participant Server
+    participant Database
+
+    Browser->>Server: GET /transfers
+    Server->>Database: SELECT transfers where user_id = X
+    Database-->>Server: Transfer data
+    Server-->>Browser: Response: transfer data

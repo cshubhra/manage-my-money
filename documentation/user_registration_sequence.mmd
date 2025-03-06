@@ -1,0 +1,9 @@
+sequenceDiagram
+    participant Browser
+    participant Server
+    participant Database
+
+    Browser->>Server: POST /signup
+    Server->>Database: INSERT into users table
+    Database-->>Server: User saved
+    Server-->>Browser: Response: success, user ID
