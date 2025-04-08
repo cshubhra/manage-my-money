@@ -1,8 +1,23 @@
+export enum ReportType {
+    SALES = 'SALES',
+    INVENTORY = 'INVENTORY',
+    FINANCIAL = 'FINANCIAL',
+    CUSTOMER = 'CUSTOMER',
+    ANALYTICS = 'ANALYTICS'
+}
+
+export enum FileType {
+    PDF = 'PDF',
+    EXCEL = 'EXCEL',
+    CSV = 'CSV',
+    HTML = 'HTML'
+}
+
 export interface Report {
     id?: number;
     reportName: string;
-    reportType: string;
-    format: string;
+    reportType: ReportType;
+    format: FileType;
     generatedBy: string;
     generatedAt?: Date;
     filePath?: string;
@@ -11,8 +26,8 @@ export interface Report {
 
 export interface ReportDTO {
     reportName: string;
-    reportType: string;
-    format: string;
+    reportType: ReportType;
+    format: FileType;
     generatedBy: string;
     parameters?: string;
     dateRange?: {
