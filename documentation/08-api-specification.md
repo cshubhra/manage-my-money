@@ -1,7 +1,7 @@
 # API Design Specification
 
 ## Overview
-This document defines the REST API specifications for the financial management system. The API follows OpenAPI 3.0 standards and implements RESTful principles.
+This document defines the REST API specifications for the financial management system. The API follows OpenAPI 3.0 standards and implements RESTful principles, built with Ruby on Rails.
 
 ## Base URL
 ```
@@ -21,7 +21,7 @@ Authorization: Bearer <jwt_token>
 #### Login
 ```yaml
 POST /auth/login
-description: Authenticate user and retrieve JWT token
+description: Authenticate user with email and password credentials
 request:
   content:
     application/json:
@@ -44,10 +44,42 @@ response:
           properties:
             token:
               type: string
-            expiresIn:
-              type: integer
+            user:
+              $ref: '#/components/schemas/User'
   401:
     description: Invalid credentials
+```
+
+#### Register
+```yaml
+POST /auth/register
+description: Create new user account
+request:
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          email:
+            type: string
+            format: email
+          password:
+            type: string
+            format: password
+          password_confirmation:
+            type: string
+            format: password
+          name:
+            type: string
+response:
+  201:
+    description: User created successfully
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/User'
+  422:
+    description: Validation errors
 ```
 
 ### Transfer API
@@ -55,7 +87,7 @@ response:
 #### Create Transfer
 ```yaml
 POST /transfers
-description: Create a new transfer
+description: Create a new financial transfer with multiple items
 security:
   - bearerAuth: []
 request:
@@ -81,6 +113,8 @@ request:
                   type: integer
                 currencyId:
                   type: integer
+                notes:
+                  type: string
 response:
   201:
     description: Transfer created successfully
@@ -88,14 +122,14 @@ response:
       application/json:
         schema:
           $ref: '#/components/schemas/Transfer'
-  400:
-    description: Invalid request
+  422:
+    description: Validation errors
 ```
 
 #### Get Transfers
 ```yaml
 GET /transfers
-description: Retrieve transfers with pagination
+description: Retrieve paginated list of transfers with optional filters
 security:
   - bearerAuth: []
 parameters:
@@ -114,6 +148,20 @@ parameters:
     schema:
       type: string
       default: day,desc
+  - name: start_date
+    in: query
+    schema:
+      type: string
+      format: date
+  - name: end_date
+    in: query
+    schema:
+      type: string
+      format: date
+  - name: category_id
+    in: query
+    schema:
+      type: integer
 response:
   200:
     description: List of transfers
@@ -132,12 +180,55 @@ response:
               type: integer
 ```
 
+#### Update Transfer
+```yaml
+PUT /transfers/{id}
+description: Update existing transfer
+security:
+  - bearerAuth: []
+parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+request:
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/Transfer'
+response:
+  200:
+    description: Transfer updated successfully
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/Transfer'
+```
+
+#### Delete Transfer
+```yaml
+DELETE /transfers/{id}
+description: Delete a transfer and its items
+security:
+  - bearerAuth: []
+parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+response:
+  204:
+    description: Transfer deleted successfully
+```
+
 ### Category API
 
 #### Create Category
 ```yaml
 POST /categories
-description: Create a new category
+description: Create a new category with optional parent category
 security:
   - bearerAuth: []
 request:
@@ -156,6 +247,10 @@ request:
           type:
             type: string
             enum: [INCOME, EXPENSE, TRANSFER]
+          icon:
+            type: string
+          color:
+            type: string
 response:
   201:
     description: Category created successfully
@@ -168,9 +263,15 @@ response:
 #### Get Category Tree
 ```yaml
 GET /categories/tree
-description: Retrieve category hierarchy
+description: Retrieve hierarchical category structure
 security:
   - bearerAuth: []
+parameters:
+  - name: type
+    in: query
+    schema:
+      type: string
+      enum: [INCOME, EXPENSE, TRANSFER]
 response:
   200:
     description: Category tree
@@ -182,12 +283,38 @@ response:
             $ref: '#/components/schemas/CategoryTree'
 ```
 
+#### Update Category
+```yaml
+PUT /categories/{id}
+description: Update category details
+security:
+  - bearerAuth: []
+parameters:
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: integer
+request:
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/Category'
+response:
+  200:
+    description: Category updated successfully
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/Category'
+```
+
 ### Currency API
 
 #### Get Exchange Rate
 ```yaml
 GET /currencies/exchange-rate
-description: Get exchange rate between currencies
+description: Get exchange rate between currencies for specific date
 security:
   - bearerAuth: []
 parameters:
@@ -225,12 +352,29 @@ response:
               format: date
 ```
 
+#### List Currencies
+```yaml
+GET /currencies
+description: Get list of available currencies
+security:
+  - bearerAuth: []
+response:
+  200:
+    description: List of currencies
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/Currency'
+```
+
 ### Report API
 
 #### Generate Report
 ```yaml
 POST /reports
-description: Generate financial report
+description: Generate customized financial report
 security:
   - bearerAuth: []
 request:
@@ -255,6 +399,11 @@ request:
           includeSubcategories:
             type: boolean
             default: false
+          groupBy:
+            type: string
+            enum: [DAY, WEEK, MONTH, YEAR]
+          currency:
+            type: string
 response:
   200:
     description: Generated report
@@ -266,6 +415,26 @@ response:
 
 ## Data Models
 
+### User
+```yaml
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        name:
+          type: string
+        preferences:
+          type: object
+        createdAt:
+          type: string
+          format: date-time
+```
+
 ### Transfer
 ```yaml
 components:
@@ -275,7 +444,6 @@ components:
       properties:
         id:
           type: integer
-          format: int64
         description:
           type: string
         day:
@@ -286,6 +454,9 @@ components:
           items:
             $ref: '#/components/schemas/TransferItem'
         createdAt:
+          type: string
+          format: date-time
+        updatedAt:
           type: string
           format: date-time
 ```
@@ -299,7 +470,6 @@ components:
       properties:
         id:
           type: integer
-          format: int64
         name:
           type: string
         description:
@@ -309,8 +479,14 @@ components:
           enum: [INCOME, EXPENSE, TRANSFER]
         parentId:
           type: integer
-          format: int64
           nullable: true
+        icon:
+          type: string
+        color:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
 ```
 
 ### CategoryTree
@@ -322,15 +498,37 @@ components:
       properties:
         id:
           type: integer
-          format: int64
         name:
           type: string
         type:
+          type: string
+        icon:
+          type: string
+        color:
           type: string
         children:
           type: array
           items:
             $ref: '#/components/schemas/CategoryTree'
+```
+
+### Currency
+```yaml
+components:
+  schemas:
+    Currency:
+      type: object
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+        name:
+          type: string
+        symbol:
+          type: string
+        isDefault:
+          type: boolean
 ```
 
 ### Report
@@ -342,7 +540,6 @@ components:
       properties:
         id:
           type: integer
-          format: int64
         type:
           type: string
         periodStart:
@@ -357,6 +554,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Chart'
+        currency:
+          type: string
+        groupBy:
+          type: string
 ```
 
 ## Error Responses
