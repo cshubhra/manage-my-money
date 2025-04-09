@@ -1,5 +1,7 @@
 package com.epam.managemymoney.service;
 
+import com.epam.managemymoney.dto.CategoryDTO;
+import com.epam.managemymoney.model.Category;
 import com.epam.managemymoney.repository.CategoryRepository;
 import com.epam.managemymoney.exception.ResourceNotFoundException;
 import com.epam.managemymoney.exception.DuplicateResourceException;
