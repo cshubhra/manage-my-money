@@ -1,7 +1,8 @@
 package com.epam.managemymoney.service;
 
-import com.example.exception.ResourceNotFoundException;
-import com.example.exception.DuplicateResourceException;
+import com.epam.managemymoney.repository.CategoryRepository;
+import com.epam.managemymoney.exception.ResourceNotFoundException;
+import com.epam.managemymoney.exception.DuplicateResourceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
