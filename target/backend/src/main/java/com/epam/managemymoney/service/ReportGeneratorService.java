@@ -1,7 +1,7 @@
-package com.example.report.service;
+package com.epam.managemymoney.service;
 
-import com.example.report.model.Report;
-import com.example.report.model.FileType;
+import com.epam.managemymoney.model.Report;
+import com.epam.managemymoney.model.FileType;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

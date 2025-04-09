@@ -1,4 +1,4 @@
-package com.target.auth.security;
+package com.epam.managemymoney.security;
 
 import com.target.auth.security.jwt.AuthEntryPointJwt;
 import com.target.auth.security.jwt.AuthTokenFilter;

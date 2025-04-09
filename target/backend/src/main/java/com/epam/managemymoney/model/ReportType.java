@@ -1,4 +1,4 @@
-package com.example.report.model;
+package com.epam.managemymoney.model;
 
 public enum ReportType {
     FLOW_REPORT,

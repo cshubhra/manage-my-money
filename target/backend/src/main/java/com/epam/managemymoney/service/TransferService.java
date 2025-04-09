@@ -1,7 +1,5 @@
-package com.example.transfer.service;
+package com.epam.managemymoney.service;
 
-import com.example.transfer.model.Transfer;
-import com.example.transfer.repository.TransferRepository;
 import com.example.transfer.dto.TransferDTO;
 import com.example.transfer.dto.TransferItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;

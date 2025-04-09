@@ -1,8 +1,6 @@
-package com.example.report.service;
+package com.epam.managemymoney.service;
 
-import com.example.report.model.Report;
-import com.example.report.model.ReportType;
-import com.example.report.model.FileType;
+import com.epam.managemymoney.model.Report;
 import com.example.report.repository.ReportRepository;
 import com.example.report.exception.ReportNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

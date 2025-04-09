@@ -1,36 +1,46 @@
-package com.modernization.api.model;
+package com.epam.managemymoney.model;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "categories")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Category {
+@Table(name = "reports")
+public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Column(nullable = false, unique = true)
-    private String name;
-    
+
     @Column(nullable = false)
-    private String description;
-    
-    @Column(name = "is_active")
-    private boolean active = true;
-    
+    private String name;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ReportType type;
+
+    @Column(name = "start_date")
+    private LocalDateTime startDate;
+
+    @Column(name = "end_date")
+    private LocalDateTime endDate;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-    
+
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-    
+
+    @Column(columnDefinition = "TEXT")
+    private String parameters;
+
+    @Column(name = "file_path")
+    private String filePath;
+
+    @Column(name = "file_type")
+    @Enumerated(EnumType.STRING)
+    private FileType fileType;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

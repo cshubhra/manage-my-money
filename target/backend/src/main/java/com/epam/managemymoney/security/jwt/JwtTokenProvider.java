@@ -1,4 +1,4 @@
-package com.target.auth.security.jwt;
+package com.epam.managemymoney.security.jwt;
 
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
