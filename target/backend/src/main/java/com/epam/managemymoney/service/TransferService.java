@@ -1,7 +1,11 @@
 package com.epam.managemymoney.service;
 
-import com.example.transfer.dto.TransferDTO;
-import com.example.transfer.dto.TransferItemDTO;
+import com.epam.managemymoney.dto.TransferDTO;
+//import com.epam.managemymoney.dto.TransferItemDTO;
+import com.epam.managemymoney.exception.ResourceNotFoundException;
+import com.epam.managemymoney.model.Transfer;
+import com.epam.managemymoney.repository.TransferRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +41,8 @@ public class TransferService {
     @Transactional
     public TransferDTO createTransfer(TransferDTO transferDTO) {
         Transfer transfer = convertToEntity(transferDTO);
-        transfer.setStatus("PENDING");
+        //transfer.setStatus("PENDING");
+
         transfer.setCreatedAt(LocalDateTime.now());
         transfer.getItems().forEach(item -> item.setTransfer(transfer));
         
@@ -65,8 +70,9 @@ public class TransferService {
 
     private void updateTransferFields(Transfer transfer, TransferDTO dto) {
         transfer.setTransferDate(dto.getTransferDate());
-        transfer.setTotalAmount(dto.getTotalAmount());
-        transfer.setStatus(dto.getStatus());
+        transfer.setAmount(dto.getAmount());
+
+        //transfer.setStatus(dto.getStatus());
         // Update other fields as needed
     }
 }

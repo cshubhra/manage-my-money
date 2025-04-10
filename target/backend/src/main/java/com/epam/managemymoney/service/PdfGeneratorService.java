@@ -65,13 +65,14 @@ public class PdfGeneratorService {
         PdfPTable headerTable = new PdfPTable(2);
         headerTable.setWidthPercentage(100);
 
-        addHeaderCell(headerTable, "Report Type:", report.getReportType());
+        addHeaderCell(headerTable, "Report Type:", String.valueOf(report.getReportType()));
         addHeaderCell(headerTable, "Period:",
                 report.getStartDate().format(DATE_FORMATTER) + " to " +
                         report.getEndDate().format(DATE_FORMATTER));
-        addHeaderCell(headerTable, "Currency:", report.getCurrencyCode());
+        //@todo hardcoded
+        addHeaderCell(headerTable, "Currency:", "USD");
         addHeaderCell(headerTable, "Generated On:",
-                report.getCreatedDate().format(DATE_FORMATTER));
+                report.getCreatedAt().format(DATE_FORMATTER));
 
         document.add(headerTable);
         document.add(Chunk.NEWLINE);

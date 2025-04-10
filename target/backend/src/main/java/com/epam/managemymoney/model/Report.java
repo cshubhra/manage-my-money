@@ -17,7 +17,7 @@ public class Report {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ReportType type;
+    private ReportType reportType;
 
     @Column(name = "start_date")
     private LocalDateTime startDate;
@@ -51,4 +51,7 @@ public class Report {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
+
+
 }
