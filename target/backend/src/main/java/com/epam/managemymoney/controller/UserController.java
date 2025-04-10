@@ -1,5 +1,6 @@
 package com.epam.managemymoney.controller;
 
+import com.epam.managemymoney.dto.PasswordUpdateRequest;
 import org.springframework.web.bind.annotation.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +22,16 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/current")
-    public ResponseEntity<UserDTO> getCurrentUser() {
-        return ResponseEntity.ok(userService.getCurrentUser());
-    }
+    //@GetMapping("/current")
 
     @PutMapping("/current")
     public ResponseEntity<UserDTO> updateCurrentUser(@Valid @RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok(userService.updateCurrentUser(userDTO));
+        return ResponseEntity.ok(userService.updateUser(userDTO.getId(),userDTO));
     }
 
     @PutMapping("/current/password")
     public ResponseEntity<Void> updatePassword(@Valid @RequestBody PasswordUpdateRequest request) {
-        userService.updatePassword(request);
+        userService.changePassword(request.getUserID(),request.getCurrentPassword(), request.getNewPassword());
         return ResponseEntity.noContent().build();
     }
 }

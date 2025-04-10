@@ -1,8 +1,6 @@
 package com.epam.managemymoney.security;
 
-import com.target.auth.security.jwt.AuthEntryPointJwt;
-import com.target.auth.security.jwt.AuthTokenFilter;
-import com.target.auth.security.services.UserDetailsServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
