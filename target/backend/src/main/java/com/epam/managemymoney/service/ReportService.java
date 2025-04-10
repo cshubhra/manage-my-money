@@ -41,7 +41,7 @@ public class ReportService {
     public Report updateReport(Long id, Report reportDetails) {
         Report report = getReport(id);
         report.setName(reportDetails.getName());
-        report.setType(reportDetails.getType());
+        //report.setType(reportDetails.getType());
         report.setStartDate(reportDetails.getStartDate());
         report.setEndDate(reportDetails.getEndDate());
         report.setParameters(reportDetails.getParameters());

@@ -35,9 +35,9 @@ public class CategoryService {
     }
 
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
-        if (categoryRepository.existsByNameIgnoreCase(categoryDTO.getName())) {
-            throw new DuplicateResourceException("Category with name " + categoryDTO.getName() + " already exists");
-        }
+//        if (categoryRepository.existsByNameIgnoreCase(categoryDTO.getName())) {
+//            throw new DuplicateResourceException("Category with name " + categoryDTO.getName() + " already exists");
+//        }
         Category category = modelMapper.map(categoryDTO, Category.class);
         Category savedCategory = categoryRepository.save(category);
         return modelMapper.map(savedCategory, CategoryDTO.class);
@@ -47,8 +47,10 @@ public class CategoryService {
         Category existingCategory = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + id));
         
-        if (!existingCategory.getName().equalsIgnoreCase(categoryDTO.getName()) && 
-            categoryRepository.existsByNameIgnoreCase(categoryDTO.getName())) {
+        if (!existingCategory.getName().equalsIgnoreCase(categoryDTO.getName())
+               // &&
+         //   categoryRepository.existsByNameIgnoreCase(categoryDTO.getName())
+        ) {
             throw new DuplicateResourceException("Category with name " + categoryDTO.getName() + " already exists");
         }
         

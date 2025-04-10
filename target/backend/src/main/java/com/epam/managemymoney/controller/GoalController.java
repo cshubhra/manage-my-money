@@ -1,5 +1,6 @@
 package com.epam.managemymoney.controller;
 
+import com.epam.managemymoney.model.Goal;
 import org.springframework.web.bind.annotation.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,33 +23,36 @@ public class GoalController {
         this.goalService = goalService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<GoalDTO>> getAllGoals() {
-        return ResponseEntity.ok(goalService.getAllGoals());
-    }
+//    @GetMapping
+//    public ResponseEntity<List<GoalDTO>> getAllGoals() {
+//
+//        return ResponseEntity.ok(goalService.getAllGoals());
+//
+//    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GoalDTO> getGoal(@PathVariable Long id) {
-        return ResponseEntity.ok(goalService.getGoalById(id));
+    public ResponseEntity<Goal> getGoal(@PathVariable Long id) {
+        //return ResponseEntity.ok(goalService.getGoalById(id));
+        return ResponseEntity.ok(goalService.getGoal(id));
     }
 
-    @PostMapping
-    public ResponseEntity<GoalDTO> createGoal(@Valid @RequestBody GoalDTO goal) {
-        GoalDTO createdGoal = goalService.createGoal(goal);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdGoal);
-    }
+//    @PostMapping
+//    public ResponseEntity<GoalDTO> createGoal(@Valid @RequestBody GoalDTO goal) {
+//        GoalDTO createdGoal = goalService.createGoal(goal.getUserId());
+//        return ResponseEntity.status(HttpStatus.CREATED).body(createdGoal);
+//    }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<GoalDTO> updateGoal(@PathVariable Long id, @Valid @RequestBody GoalDTO goal) {
-        return ResponseEntity.ok(goalService.updateGoal(id, goal));
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<GoalDTO> updateGoal(@PathVariable Long id, @Valid @RequestBody GoalDTO goal) {
+//        return ResponseEntity.ok(goalService.updateGoal(id, goal));
+//    }
 
-    @PatchMapping("/{id}/progress")
-    public ResponseEntity<GoalDTO> updateProgress(
-            @PathVariable Long id,
-            @Valid @RequestBody ProgressUpdateRequest request) {
-        return ResponseEntity.ok(goalService.updateProgress(id, request.getAmount()));
-    }
+//    @PatchMapping("/{id}/progress")
+//    public ResponseEntity<GoalDTO> updateProgress(
+//            @PathVariable Long id,
+//            @Valid @RequestBody ProgressUpdateRequest request) {
+//        return ResponseEntity.ok(goalService.updateProgress(id, request.getAmount()));
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGoal(@PathVariable Long id) {

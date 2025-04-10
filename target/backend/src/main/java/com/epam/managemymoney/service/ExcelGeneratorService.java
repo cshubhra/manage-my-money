@@ -117,7 +117,7 @@ public class ExcelGeneratorService {
         Cell headerCell = row.createCell(0);
         headerCell.setCellValue("Report Type:");
         headerCell.setCellStyle(headerStyle);
-        row.createCell(1).setCellValue(report.getReportType());
+        row.createCell(1).setCellValue(report.getName());
 
         // Period
         row = sheet.createRow(rowNum++);
@@ -135,7 +135,7 @@ public class ExcelGeneratorService {
         headerCell = row.createCell(0);
         headerCell.setCellValue("Currency:");
         headerCell.setCellStyle(headerStyle);
-        row.createCell(1).setCellValue(report.getCurrencyCode());
+        row.createCell(1).setCellValue(report.getName());
 
         return rowNum + 1;
     }

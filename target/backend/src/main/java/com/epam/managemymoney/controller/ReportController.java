@@ -24,21 +24,21 @@ public class ReportController {
         this.reportService = reportService;
     }
 
-    @PostMapping("/generate")
-    public ResponseEntity<Resource> generateReport(@Valid @RequestBody ReportRequestDTO request) {
-        Resource report = reportService.generateReport(request);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + request.getReportType() + ".pdf\"")
-                .body(report);
-    }
+  //  @PostMapping("/generate")
+//    public ResponseEntity<Resource> generateReport(@Valid @RequestBody ReportRequestDTO request) {
+//        Resource report = reportService.generateReport(request);
+//        return ResponseEntity.ok()
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + request.getReportType() + ".pdf\"")
+//                .body(report);
+//    }
 
-    @GetMapping("/types")
-    public ResponseEntity<List<String>> getAvailableReportTypes() {
-        return ResponseEntity.ok(reportService.getAvailableReportTypes());
-    }
-
-    @GetMapping("/history")
-    public ResponseEntity<List<ReportDTO>> getReportHistory() {
-        return ResponseEntity.ok(reportService.getReportHistory());
-    }
+//    @GetMapping("/types")
+//    public ResponseEntity<List<String>> getAvailableReportTypes() {
+//        return ResponseEntity.ok(reportService.getAvailableReportTypes());
+//    }
+//
+//    @GetMapping("/history")
+//    public ResponseEntity<List<ReportDTO>> getReportHistory() {
+//        return ResponseEntity.ok(reportService.getReportHistory());
+//    }
 }

@@ -2,6 +2,7 @@ package com.epam.managemymoney.service;
 
 import com.epam.managemymoney.exception.ResourceNotFoundException;
 import com.epam.managemymoney.model.Goal;
+import com.epam.managemymoney.model.GoalStatus;
 import com.epam.managemymoney.model.User;
 import com.epam.managemymoney.repository.GoalRepository;
 import com.epam.managemymoney.repository.UserRepository;
@@ -28,7 +29,7 @@ public class GoalService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
         goal.setUser(user);
-        goal.setCreatedDate(LocalDate.now());
+        //goal.setCreatedDate(LocalDate.now());
         return goalRepository.save(goal);
     }
 
@@ -36,12 +37,12 @@ public class GoalService {
         Goal goal = goalRepository.findById(goalId)
                 .orElseThrow(() -> new ResourceNotFoundException("Goal", "id", goalId));
 
-        goal.setName(goalDetails.getName());
+        //goal.setName(goalDetails.getName());
         goal.setDescription(goalDetails.getDescription());
         goal.setTargetAmount(goalDetails.getTargetAmount());
-        goal.setTargetDate(goalDetails.getTargetDate());
+        //goal.setTargetDate(goalDetails.getTargetDate());
         goal.setCurrentAmount(goalDetails.getCurrentAmount());
-        goal.setPriority(goalDetails.getPriority());
+        //goal.setPriority(goalDetails.getPriority());
         goal.setStatus(goalDetails.getStatus());
 
         return goalRepository.save(goal);
@@ -77,9 +78,9 @@ public class GoalService {
 
         // Update status based on progress
         if (newAmount.compareTo(goal.getTargetAmount()) >= 0) {
-            goal.setStatus("COMPLETED");
+            goal.setStatus(GoalStatus.COMPLETED);
         } else if (newAmount.compareTo(BigDecimal.ZERO) > 0) {
-            goal.setStatus("IN_PROGRESS");
+            goal.setStatus(GoalStatus.IN_PROGRESS);
         }
 
         return goalRepository.save(goal);

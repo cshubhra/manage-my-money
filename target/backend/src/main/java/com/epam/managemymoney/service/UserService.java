@@ -36,7 +36,7 @@ public class UserService {
 
         User user = modelMapper.map(userDTO, User.class);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setActive(true);
+        //user.setActive(true);
 
         User savedUser = userRepository.save(user);
         log.info("User created successfully with id: {}", savedUser.getId());

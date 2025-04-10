@@ -27,13 +27,13 @@ public class AuthController {
     public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody AuthRequestDTO request) {
         log.info("Authentication request received for user: {}", request.getUsername());
         //return ResponseEntity.ok(authService.authenticate(request));
-        return ResponseEntity.ok("true");
+        return ResponseEntity.ok(new AuthResponseDTO());
     }
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponseDTO> register(@Valid @RequestBody AuthRequestDTO request) {
         log.info("Registration request received for user: {}", request.getUsername());
         //return ResponseEntity.ok(authService.register(request));
-        return ResponseEntity.ok("true");
+        return ResponseEntity.ok(new AuthResponseDTO());
     }
 }

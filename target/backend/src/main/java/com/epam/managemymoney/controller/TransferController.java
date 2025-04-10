@@ -28,7 +28,8 @@ public class TransferController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TransferDTO> getTransfer(@PathVariable Long id) {
-        return ResponseEntity.ok(transferService.getTransfer(id));
+        return ResponseEntity.ok(transferService.getTransferById(id));
+
     }
 
     @PostMapping
@@ -46,7 +47,8 @@ public class TransferController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTransfer(@PathVariable Long id) {
-        transferService.deleteTransfer(id);
+        //transferService.deleteTransfer(id);
+
         return ResponseEntity.noContent().build();
     }
 }

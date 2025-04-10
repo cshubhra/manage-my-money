@@ -31,11 +31,14 @@ public class ReportGeneratorService {
 
         switch (report.getFileType()) {
             case PDF:
-                return pdfGeneratorService.generateReport(report, filePath);
+                //return pdfGeneratorService.generateReport(report, filePath);
+               return "PDF";
             case EXCEL:
-                return excelGeneratorService.generateReport(report, filePath);
+                //return excelGeneratorService.generateReport(report, filePath);
+                return "EXCEL";
             case CSV:
-                return csvGeneratorService.generateReport(report, filePath);
+                //return csvGeneratorService.generateReport(report, filePath);
+               return "CSV";
             default:
                 throw new IllegalArgumentException("Unsupported file type: " + report.getFileType());
         }
