@@ -1,0 +1,1 @@
+This directory contains the Angular frontend implementation for the modernized application.

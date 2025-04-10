@@ -1,0 +1,81 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>{{isEditMode ? 'Edit' : 'Generate'}} Report</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+        <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
+            <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+            <div class="form-container">
+                <mat-form-field appearance="outline">
+                    <mat-label>Report Name</mat-label>
+                    <input matInput formControlName="name" required>
+                    <mat-error *ngIf="reportForm.get('name')?.hasError('required')">
+                        Name is required
+                    </mat-error>
+                    <mat-error *ngIf="reportForm.get('name')?.hasError('minlength')">
+                        Name must be at least 3 characters
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Report Type</mat-label>
+                    <mat-select formControlName="type" required>
+                        <mat-option *ngFor="let type of reportTypes" [value]="type">
+                            {{type}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="reportForm.get('type')?.hasError('required')">
+                        Report type is required
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Start Date</mat-label>
+                    <input matInput [matDatepicker]="startPicker" formControlName="startDate" required>
+                    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #startPicker></mat-datepicker>
+                    <mat-error *ngIf="reportForm.get('startDate')?.hasError('required')">
+                        Start date is required
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>End Date</mat-label>
+                    <input matInput [matDatepicker]="endPicker" formControlName="endDate" required>
+                    <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #endPicker></mat-datepicker>
+                    <mat-error *ngIf="reportForm.get('endDate')?.hasError('required')">
+                        End date is required
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Parameters (JSON)</mat-label>
+                    <textarea matInput formControlName="parameters" rows="4"></textarea>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>File Format</mat-label>
+                    <mat-select formControlName="fileType" required>
+                        <mat-option *ngFor="let type of fileTypes" [value]="type">
+                            {{type}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="reportForm.get('fileType')?.hasError('required')">
+                        File format is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="button-row">
+                <button mat-button type="button" routerLink="/reports">Cancel</button>
+                <button mat-raised-button color="primary" type="submit"
+                    [disabled]="!reportForm.valid || loading">
+                    {{isEditMode ? 'Update' : 'Generate'}} Report
+                </button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,1 @@
+This directory contains the Spring Boot backend implementation for the modernized application.
