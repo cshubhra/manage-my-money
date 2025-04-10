@@ -1,8 +1,8 @@
 package com.epam.managemymoney.service;
 
 import com.epam.managemymoney.model.Report;
-import com.example.report.repository.ReportRepository;
-import com.example.report.exception.ReportNotFoundException;
+import com.epam.managemymoney.repository.ReportRepository;
+import com.epam.managemymoney.exception.ReportNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
