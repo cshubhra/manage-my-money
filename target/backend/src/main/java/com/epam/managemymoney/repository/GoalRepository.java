@@ -16,5 +16,5 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
     List<Goal> findByUserIdAndStatusNot(Long userId, String status);
     List<Goal> findByUserIdAndPriorityOrderByTargetDateAsc(Long userId, String priority);
     List<Goal> findByUserIdAndTargetDateGreaterThanAndStatusNotOrderByTargetDateAsc(
-            Long userId, LocalDate date, String status);
+            Long userId, LocalDate targetDate, String status);
 }

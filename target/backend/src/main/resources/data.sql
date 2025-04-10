@@ -25,25 +25,25 @@ VALUES ('Salary', 'Monthly salary income', 1, 2, 1, 2, CURRENT_TIMESTAMP, CURREN
        ('Credit Card', 'Credit card payments', 4, 2, 9, 10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Insert sample exchanges
-INSERT INTO exchanges (left_currency_id, right_currency_id, left_to_right, right_to_left, day, user_id)
+INSERT INTO exchanges (left_currency_id, right_currency_id, left_to_right, right_to_left, days, user_id)
 VALUES (1, 2, 0.85, 1.18, CURRENT_DATE, 2),
        (1, 3, 0.73, 1.37, CURRENT_DATE, 2),
        (2, 3, 0.86, 1.16, CURRENT_DATE, 2);
 
 -- Insert sample transfers
-INSERT INTO transfers (description, day, user_id)
+INSERT INTO transfers (description, days, user_id)
 VALUES ('Monthly salary payment', CURRENT_DATE, 2),
        ('Grocery shopping', CURRENT_DATE, 2),
        ('Rent payment', CURRENT_DATE, 2);
 
 -- Insert sample transfer items
-INSERT INTO transfer_items (description, value, transfer_id, category_id, currency_id)
+INSERT INTO transfer_items (description, val, transfer_id, category_id, currency_id)
 VALUES ('Salary deposit', 5000.00, 1, 1, 1),
        ('Grocery store purchase', -150.00, 2, 2, 1),
        ('Monthly rent', -1200.00, 3, 3, 1);
 
 -- Insert sample goals
-INSERT INTO goals (description, include_subcategories, period_type_int, goal_type_int, value, category_id, currency_id, period_start, period_end, user_id)
+INSERT INTO goals (description, include_subcategories, period_type_int, goal_type_int, val, category_id, currency_id, period_start, period_end, user_id)
 VALUES ('Monthly savings target', true, 1, 1, 1000.00, 4, 1, CURRENT_DATE, DATEADD('MONTH', 1, CURRENT_DATE), 2),
        ('Reduce grocery spending', true, 1, 2, 500.00, 2, 1, CURRENT_DATE, DATEADD('MONTH', 1, CURRENT_DATE), 2);
 

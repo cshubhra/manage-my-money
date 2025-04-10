@@ -3,7 +3,7 @@ package com.epam.managemymoney.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,6 +24,9 @@ public class Goal {
     @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
+    private String priority;
+
     @Column(name = "target_amount", nullable = false)
     private BigDecimal targetAmount;
 
@@ -35,6 +38,9 @@ public class Goal {
 
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
+
+    @Column(name = "target_date", nullable = true)
+    private LocalDate targetDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

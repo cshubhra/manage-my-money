@@ -30,7 +30,8 @@ CREATE TABLE users (
     include_transactions_from_subcategories BOOLEAN DEFAULT FALSE,
     multi_currency_balance_calculating_algorithm_int INT DEFAULT 0,
     default_currency_id BIGINT DEFAULT 1,
-    invert_saldo_for_income BOOLEAN DEFAULT TRUE
+    invert_saldo_for_income BOOLEAN DEFAULT TRUE,
+    active BOOLEAN DEFAULT TRUE
 );
 
 -- Create Currencies table
@@ -98,7 +99,7 @@ CREATE TABLE exchanges (
     right_currency_id BIGINT NOT NULL,
     left_to_right DECIMAL(8,4) NOT NULL,
     right_to_left DECIMAL(8,4) NOT NULL,
-    day DATE,
+    days DATE,
     user_id BIGINT,
     FOREIGN KEY (left_currency_id) REFERENCES currencies(id),
     FOREIGN KEY (right_currency_id) REFERENCES currencies(id),
@@ -109,7 +110,7 @@ CREATE TABLE exchanges (
 CREATE TABLE transfers (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     description TEXT NOT NULL,
-    day DATE NOT NULL,
+    days DATE NOT NULL,
     user_id BIGINT NOT NULL,
     import_guid VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES users(id)
@@ -119,7 +120,7 @@ CREATE TABLE transfers (
 CREATE TABLE transfer_items (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     description TEXT NOT NULL,
-    value DECIMAL(12,2) NOT NULL,
+    val DECIMAL(12,2) NOT NULL,
     transfer_id BIGINT NOT NULL,
     category_id BIGINT NOT NULL,
     currency_id BIGINT NOT NULL DEFAULT 3,
@@ -137,17 +138,19 @@ CREATE TABLE goals (
     period_type_int INT,
     goal_type_int INT DEFAULT 0,
     goal_completion_condition_int INT DEFAULT 0,
-    value FLOAT,
+    val FLOAT,
     category_id BIGINT NOT NULL,
     created_at TIMESTAMP,
     updated_at TIMESTAMP,
     currency_id BIGINT,
     period_start DATE,
     period_end DATE,
+    target_date DATE,
     is_cyclic BOOLEAN DEFAULT FALSE,
     is_finished BOOLEAN DEFAULT FALSE,
     cycle_group INT,
     user_id BIGINT NOT NULL,
+    priority varchar(500) NOT NULL DEFAULT ' ',
     FOREIGN KEY (category_id) REFERENCES categories(id),
     FOREIGN KEY (currency_id) REFERENCES currencies(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
@@ -169,7 +172,7 @@ CREATE TABLE reports (
     max_categories_values_count INT DEFAULT 0,
     category_id BIGINT,
     period_division_int INT DEFAULT 5,
-    temporary BOOLEAN DEFAULT FALSE,
+    temp BOOLEAN DEFAULT FALSE,
     relative_period BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (category_id) REFERENCES categories(id)
@@ -205,13 +208,13 @@ CREATE INDEX idx_categories_rgt ON categories(rgt);
 CREATE INDEX idx_category_report_options ON category_report_options(category_id, report_id);
 CREATE INDEX idx_conversions ON conversions(exchange_id, transfer_id);
 CREATE INDEX idx_currencies_user ON currencies(id, user_id);
-CREATE INDEX idx_exchanges_composite ON exchanges(day, left_currency_id, right_currency_id, user_id);
-CREATE INDEX idx_exchanges_day ON exchanges(day);
+CREATE INDEX idx_exchanges_composite ON exchanges(days, left_currency_id, right_currency_id, user_id);
+CREATE INDEX idx_exchanges_day ON exchanges(days);
 CREATE INDEX idx_goals_category ON goals(category_id);
 CREATE INDEX idx_reports_category ON reports(category_id);
 CREATE INDEX idx_reports_user ON reports(user_id);
 CREATE INDEX idx_transfer_items_category ON transfer_items(category_id);
 CREATE INDEX idx_transfer_items_currency ON transfer_items(currency_id);
 CREATE INDEX idx_transfer_items_transfer ON transfer_items(transfer_id);
-CREATE INDEX idx_transfers_day ON transfers(day);
+CREATE INDEX idx_transfers_day ON transfers(days);
 CREATE INDEX idx_transfers_user ON transfers(user_id);

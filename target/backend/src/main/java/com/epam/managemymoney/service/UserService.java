@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    //private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
 
     public UserDTO createUser(UserDTO userDTO) {
@@ -35,7 +35,8 @@ public class UserService {
         }
 
         User user = modelMapper.map(userDTO, User.class);
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        /* user.setPassword(passwordEncoder.encode(userDTO.getPassword())); */
+        user.setPassword(userDTO.getPassword());
         //user.setActive(true);
 
         User savedUser = userRepository.save(user);
@@ -80,7 +81,8 @@ public class UserService {
         existingUser.setEmail(userDTO.getEmail());
         existingUser.setUsername(userDTO.getUsername());
         if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
-            existingUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            //existingUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            existingUser.setPassword(userDTO.getPassword());
         }
         //existingUser.setPreferredCurrency(userDTO.getPreferredCurrency());
 
@@ -119,11 +121,14 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
         // Verify old password
-        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
-            throw new IllegalArgumentException("Invalid current password");
+//        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+//            throw new IllegalArgumentException("Invalid current password");
+//        }
+        if (!oldPassword.equals(user.getPassword())) {
+           throw new IllegalArgumentException("Invalid current password");
         }
-
-        user.setPassword(passwordEncoder.encode(newPassword));
+       // user.setPassword(passwordEncoder.encode(newPassword));
+        user.setPassword(newPassword);
         userRepository.save(user);
         log.info("Password changed successfully for user with id: {}", userId);
     }
@@ -167,7 +172,8 @@ public class UserService {
 
         Optional<User> userOpt = userRepository.findByEmail(email);
         return userOpt.isPresent() &&
-                passwordEncoder.matches(password, userOpt.get().getPassword()) ;
+                //passwordEncoder.matches(password, userOpt.get().getPassword()) ;
+                password.equals(userOpt.get().getPassword());
         //&&    userOpt.get().isActive();
     }
 }

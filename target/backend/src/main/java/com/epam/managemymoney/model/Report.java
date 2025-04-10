@@ -1,7 +1,7 @@
 package com.epam.managemymoney.model;
 
 import lombok.Data;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -36,6 +36,10 @@ public class Report {
 
     @Column(name = "file_path")
     private String filePath;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(name = "file_type")
     @Enumerated(EnumType.STRING)
